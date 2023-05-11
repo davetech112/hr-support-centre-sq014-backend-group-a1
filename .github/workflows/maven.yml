@@ -26,4 +26,4 @@ jobs:
         run: mvn -B test --file pom.xml
 
       - name: Build the app
-        run: mvn -B package --file pom.xml
+        run: mvn -DskipTests package
