@@ -1,4 +1,5 @@
 package com.hrsupportcentresq014.hrsupportcentresq014.enums;
 
-public enum Roles {
+public enum Role {
+    ADMIN, HR, STAFF;
 }
