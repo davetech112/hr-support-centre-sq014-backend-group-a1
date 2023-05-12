@@ -29,6 +29,8 @@ public class Employee {
 
     private String middlename;
 
+    private String phoneNo;
+
     @Indexed(unique = true)
     private String email;
 
