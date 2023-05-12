@@ -18,25 +18,6 @@ public class HrSupportCentreSq014Application {
 		SpringApplication.run(HrSupportCentreSq014Application.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner(EmployeeRepository repository, TeamRepository teamRepository){
-		return args -> {
-//			Team team = teamRepository.findTeamByName("food item").get();
-//
-//			System.out.println("********** "+team.getTeamLeader().getFirstname());
 
-
-
-
-
-
-
-
-
-
-
-
-		};
-	}
 
 }
