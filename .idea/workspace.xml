@@ -5,12 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4fb5dc43-65df-47da-87aa-cb0ef54f3eee" name="Changes" comment="modified commit">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/maven.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/maven.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/SecurityConfig/ApplicationConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/SecurityConfig/SecurityConfigFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/SecurityConfig/Utils/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/SecurityConfig/Utils/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/controllers/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/controllers/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/controllers/HRController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014/controllers/HRController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -29,13 +43,9 @@
         <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
   </component>
   <component name="ProjectId" id="2PdmXNMR9LVwz03EFcCPhLrAeCc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -45,7 +55,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/decagon/IdeaProjects/hr-support-centre-sq014-backend-group-a",
+    "last_opened_file_path": "/Users/decagon/Desktop/cloned/hr-support-centre-sq014-backend-group-a_updated/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -55,6 +65,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/hrsupportcentresq014/hrsupportcentresq014" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -89,6 +100,7 @@
       <option name="presentableId" value="Default" />
       <updated>1683795374763</updated>
       <workItem from="1683795377820" duration="2316000" />
+      <workItem from="1683967695493" duration="1042000" />
     </task>
     <task id="LOCAL-00001" summary="initial adding of gitHub Action CI/CD pipeline">
       <created>1683795639850</created>
