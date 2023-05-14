@@ -1,5 +1,6 @@
 package com.hrsupportcentresq014.hrsupportcentresq014.SecurityConfig;
 
+import com.hrsupportcentresq014.hrsupportcentresq014.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +21,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return username ->  employeeRepository.findByEmail(username)
+        return username ->  employeeRepository.findEmployeeByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
     }
 
