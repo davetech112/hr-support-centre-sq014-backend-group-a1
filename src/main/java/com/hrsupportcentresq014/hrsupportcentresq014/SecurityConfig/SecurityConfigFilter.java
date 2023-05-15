@@ -38,7 +38,7 @@ public class SecurityConfigFilter {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/user/**")
+                .requestMatchers("/api/login", "/api/registration")
                 .permitAll()
                 .requestMatchers(WHITE_LIST)
                 .permitAll()

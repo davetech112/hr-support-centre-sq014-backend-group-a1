@@ -16,12 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    //Todo Employee Repository not provided yet This subject to change
     private final EmployeeRepository employeeRepository;
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return username ->  employeeRepository.findEmployeeByEmail(username)
+        return username ->  employeeRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
     }
 

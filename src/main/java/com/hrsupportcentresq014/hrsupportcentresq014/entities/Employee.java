@@ -2,15 +2,14 @@ package com.hrsupportcentresq014.hrsupportcentresq014.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hrsupportcentresq014.hrsupportcentresq014.entities.entityUtil.Socials;
-import com.hrsupportcentresq014.hrsupportcentresq014.enums.Role;
 import com.mongodb.lang.NonNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,6 +40,7 @@ public class Employee implements UserDetails {
 
     private String password;
 
+    @DBRef
     private Role role;
 
     private Socials social;
