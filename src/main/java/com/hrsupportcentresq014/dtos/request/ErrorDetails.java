@@ -1,4 +1,4 @@
-package com.hrsupportcentresq014.hrsupportcentresq014.dtos.request;
+package com.hrsupportcentresq014.dtos.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

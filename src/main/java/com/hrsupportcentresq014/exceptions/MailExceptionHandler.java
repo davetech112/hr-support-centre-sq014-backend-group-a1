@@ -1,6 +1,6 @@
-package com.hrsupportcentresq014.hrsupportcentresq014.exceptions;
+package com.hrsupportcentresq014.exceptions;
 
-import com.hrsupportcentresq014.hrsupportcentresq014.dtos.request.ErrorDetails;
+import com.hrsupportcentresq014.dtos.request.ErrorDetails;
 import jakarta.mail.MessagingException;
 import jakarta.mail.SendFailedException;
 import jakarta.mail.internet.AddressException;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import java.util.Date;
 
-public class GlobalException {
+public class MailExceptionHandler {
     @ExceptionHandler(MessagingException.class) //  This is the superclass for all exceptions related to sending or receiving email messages.
     public ResponseEntity<ErrorDetails> handleMessagingException(MessagingException exception,
                                                                     WebRequest webRequest){

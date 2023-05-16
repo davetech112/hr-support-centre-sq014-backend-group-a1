@@ -1,4 +1,4 @@
-package com.hrsupportcentresq014.hrsupportcentresq014.services;
+package com.hrsupportcentresq014.services;
 
 import jakarta.mail.MessagingException;
 

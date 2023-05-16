@@ -1,6 +1,6 @@
-package com.hrsupportcentresq014.hrsupportcentresq014.services.serviceImpl;
+package com.hrsupportcentresq014.services.serviceImpl;
 
-import com.hrsupportcentresq014.hrsupportcentresq014.services.MailService;
+import com.hrsupportcentresq014.services.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
