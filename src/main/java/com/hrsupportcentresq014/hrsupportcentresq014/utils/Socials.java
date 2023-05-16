@@ -1,4 +1,4 @@
-package com.hrsupportcentresq014.hrsupportcentresq014.entities.entityUtil;
+package com.hrsupportcentresq014.hrsupportcentresq014.utils;
 
 
 
