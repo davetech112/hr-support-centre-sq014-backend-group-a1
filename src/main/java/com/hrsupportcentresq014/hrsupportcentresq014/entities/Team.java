@@ -1,6 +1,7 @@
 package com.hrsupportcentresq014.hrsupportcentresq014.entities;
 
 import com.mongodb.lang.NonNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ import java.util.List;
 public class Team {
     @Id
     private String id;
-    @NonNull
+    @NotBlank(message = "please enter team name")
     private String name;
     @DBRef
     private Employee teamLeader;

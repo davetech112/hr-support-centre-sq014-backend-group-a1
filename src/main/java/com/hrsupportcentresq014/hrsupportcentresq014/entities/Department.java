@@ -1,6 +1,7 @@
 package com.hrsupportcentresq014.hrsupportcentresq014.entities;
 
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Department {
     @Id
     private String id;
 
+    @NotBlank(message = "Please provide the department name")
     private String departmentName;
 
     @DBRef
