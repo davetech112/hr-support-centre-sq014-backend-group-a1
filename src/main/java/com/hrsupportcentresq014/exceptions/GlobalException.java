@@ -7,10 +7,11 @@ import jakarta.mail.internet.AddressException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
-
+@RestControllerAdvice
 public class GlobalException {
     @ExceptionHandler(MessagingException.class) //  This is the superclass for all exceptions related to sending or receiving email messages.
     public ResponseEntity<ErrorDetails> handleMessagingException(MessagingException exception,
