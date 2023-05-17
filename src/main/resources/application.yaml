@@ -17,11 +17,3 @@ spring:
         debug: true
     test-connection: false
     protocol: smtp
-
-
-#Thymeleaf Services
-mail:
-  templateBaseName: mail/MailMessage
-  templatePrefix: /templates/
-  templateSuffix: .html
-  charset: UTF-8
