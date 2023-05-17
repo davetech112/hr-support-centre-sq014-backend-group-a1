@@ -52,6 +52,13 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private String reportTo;
 
+    public Employee(String firstname,  String lastName,  String email, String position) {
+        this.firstname = firstname;
+        this.email = email;
+        this.lastName = lastName;
+        this.position = position;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
