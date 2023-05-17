@@ -1,5 +1,3 @@
-
-
 # Google api smtp integration service
 spring:
   mail:
