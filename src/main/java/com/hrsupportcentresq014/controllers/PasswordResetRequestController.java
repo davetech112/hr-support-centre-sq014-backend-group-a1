@@ -1,6 +1,7 @@
 package com.hrsupportcentresq014.controllers;
 
 import com.hrsupportcentresq014.services.PasswordResetRequestService;
+import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/password")
 public class PasswordResetRequestController {
-    private PasswordResetRequestService resetRequestService;
+    private final PasswordResetRequestService resetRequestService;
 
     public PasswordResetRequestController(PasswordResetRequestService resetRequestService) {
         this.resetRequestService = resetRequestService;
     }
 
-    @PostMapping("/forgot-password/{id}")
-    public ResponseEntity<String> resetPassword(@RequestParam String email){
+    @PostMapping("/forgot-password/")
+    public ResponseEntity<String> resetPassword(@RequestParam String email) throws MessagingException {
         return ResponseEntity.ok(resetRequestService.resetPassword(email));
     }
 
