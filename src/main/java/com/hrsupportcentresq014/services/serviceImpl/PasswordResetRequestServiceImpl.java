@@ -5,7 +5,9 @@ import com.hrsupportcentresq014.entities.Employee;
 import com.hrsupportcentresq014.entities.PasswordResetRequest;
 import com.hrsupportcentresq014.repositories.EmployeeRepository;
 import com.hrsupportcentresq014.repositories.PasswordResetRequestRepository;
+import com.hrsupportcentresq014.services.MailService;
 import com.hrsupportcentresq014.services.PasswordResetRequestService;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,14 +17,16 @@ import java.util.UUID;
 public class PasswordResetRequestServiceImpl implements PasswordResetRequestService {
     private final PasswordResetRequestRepository resetRequestRepo;
     private final EmployeeRepository employeeRepo;
+    private final MailService mailService;
 
-    public PasswordResetRequestServiceImpl(PasswordResetRequestRepository resetRequestRepo, EmployeeRepository employeeRepo) {
+    public PasswordResetRequestServiceImpl(PasswordResetRequestRepository resetRequestRepo, EmployeeRepository employeeRepo, MailService mailService) {
         this.resetRequestRepo = resetRequestRepo;
         this.employeeRepo = employeeRepo;
+        this.mailService = mailService;
     }
 
     @Override
-    public String resetPassword(String email) {
+    public String resetPassword(String email) throws MessagingException {
         String resetToken;
         resetToken = UUID.randomUUID().toString();
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(10);
@@ -31,6 +35,9 @@ public class PasswordResetRequestServiceImpl implements PasswordResetRequestServ
         resetRequest.setResetToken(resetToken);
         resetRequest.setExpirationDate(expirationDate);
         resetRequestRepo.save(resetRequest);
+        String resetEmailUrl = "Click the following link to reset your password: http://your_website.com/reset-password?token=" + resetToken;
+
+        mailService.passwordReset(resetEmailUrl, email);
         return "Password reset process initiated";
     }
 
