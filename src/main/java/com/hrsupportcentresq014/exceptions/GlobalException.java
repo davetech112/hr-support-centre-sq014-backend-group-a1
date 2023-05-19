@@ -1,15 +1,18 @@
 package com.hrsupportcentresq014.exceptions;
 
 import com.hrsupportcentresq014.dtos.request.ErrorDetails;
+import io.jsonwebtoken.JwtException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.SendFailedException;
 import jakarta.mail.internet.AddressException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.naming.AuthenticationException;
 import java.util.Date;
 @RestControllerAdvice
 public class GlobalException {
@@ -36,5 +39,21 @@ public class GlobalException {
                                                               WebRequest webRequest){
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler
+    public ResponseEntity<ErrorDetails> genericAuthenticationHandler(AuthenticationException ex, HttpServletRequest request){
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    public ResponseEntity<ErrorDetails> genericJwtHandler(JwtException ex, HttpServletRequest request){
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
+        return new ResponseEntity<>(errorDetails, HttpStatus.REQUEST_TIMEOUT);
+    }
+
+    @ExceptionHandler(value = EmailNotFoundException.class)
+    public ResponseEntity<ErrorDetails> EmailNotFoundHandler(EmailNotFoundException ex, HttpServletRequest request){
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 }
