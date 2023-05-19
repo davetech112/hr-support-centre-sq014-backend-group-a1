@@ -1,7 +1,6 @@
 package com.hrsupportcentresq014.exceptions;
 
 import com.hrsupportcentresq014.dtos.request.ErrorDetails;
-import io.jsonwebtoken.JwtException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.SendFailedException;
 import jakarta.mail.internet.AddressException;
@@ -45,8 +44,8 @@ public class GlobalException {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler
-    public ResponseEntity<ErrorDetails> genericJwtHandler(JwtException ex, HttpServletRequest request){
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorDetails> genericJwtHandler(Exception ex, HttpServletRequest request){
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
         return new ResponseEntity<>(errorDetails, HttpStatus.REQUEST_TIMEOUT);
     }

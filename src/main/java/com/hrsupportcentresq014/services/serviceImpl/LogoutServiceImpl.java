@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @RequiredArgsConstructor
 public class LogoutServiceImpl implements LogoutHandler {
@@ -35,7 +34,6 @@ public class LogoutServiceImpl implements LogoutHandler {
                 .orElse(null);
         var token = tokenRepository.findByJwtToken(jwt)
                 .orElse(null);
-
         if (token == null && user == null) {
             return;
         }

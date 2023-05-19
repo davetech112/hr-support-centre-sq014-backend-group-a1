@@ -37,7 +37,6 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private Role role;
 
-
     private Socials social;
 
     private String pictureUrl;
