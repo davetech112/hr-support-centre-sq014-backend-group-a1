@@ -22,9 +22,9 @@ import java.util.Collection;
 @Builder
 public class Employee extends BaseEntity implements UserDetails{
 
-    private String firstname;
+    private String firstName;
 
-    private String nickname;
+    private String nickName;
 
     private String phoneNo;
 
@@ -59,8 +59,8 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private String teamManager;
 
-    public Employee(String firstname,  String lastName,  String email, String position) {
-        this.firstname = firstname;
+    public Employee(String firstName,  String lastName,  String email, String position) {
+        this.firstName = firstName;
         this.email = email;
         this.lastName = lastName;
         this.position = position;
