@@ -14,8 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 public class Token  extends BaseEntity{
     private String jwtToken;
-    private boolean isExpired;
-    private boolean isRevoked;
+    private boolean expired;
+    private boolean revoked;
 
     @DBRef
     private Employee employee;

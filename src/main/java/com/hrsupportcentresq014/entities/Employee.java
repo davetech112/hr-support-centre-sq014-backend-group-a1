@@ -57,6 +57,8 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private String position;
 
+    private String reportTo;
+    private boolean loggedIn;
     private String teamManager;
 
     public Employee(String firstName,  String lastName,  String email, String position) {
@@ -69,6 +71,11 @@ public class Employee extends BaseEntity implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -93,6 +100,6 @@ public class Employee extends BaseEntity implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isLoggedIn();
     }
 }

@@ -1,5 +1,6 @@
 package com.hrsupportcentresq014.security_config.utils;
 
+import com.hrsupportcentresq014.repositories.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
     @Override
     protected void doFilterInternal(
            @NonNull HttpServletRequest request,
@@ -47,7 +49,11 @@ public class JwtFilter extends OncePerRequestFilter {
             log.info("This is the email you have ==============>>>>>>" + userEmail);
             log.info("This is the userdetails you have ==============>>>>>>" + userDetails);
 
-            if(jwtUtils.isTokenValid(jwtToken, userDetails)){
+            var isTokenValid = tokenRepository.findByJwtToken(jwtToken)
+                    .map(t-> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+
+            if(jwtUtils.isTokenValid(jwtToken, userDetails) && isTokenValid){
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
