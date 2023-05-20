@@ -38,10 +38,13 @@ public class HrServiceImpl implements HrService {
 
         mailService.sendMailTest(staffRequest.getEmail(), "Employee account password", "Welcome, "+staffRequest.getFirstname()+" you have been onboarded. Here is your password: "+ password);
 
-        Employee employee = Employee.builder()
+        Employee employee = new Employee();
+
+        BeanUtils.copyProperties(staffRequest, employee);
+
+        employee = Employee.builder()
                 .password(passwordEncoder.encode(password))
                 .build();
-        BeanUtils.copyProperties(staffRequest, employee);
 
         return mappedToResponse(repository.save(employee));
     }
