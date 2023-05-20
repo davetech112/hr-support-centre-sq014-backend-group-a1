@@ -1,15 +1,13 @@
 package com.hrsupportcentresq014.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
+
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +18,7 @@ public class View extends BaseEntity{
 
     private boolean hasView;
 
-    @CreationTimestamp
+    //@CreationTimestamp
     private LocalDateTime dateView;
 
 }

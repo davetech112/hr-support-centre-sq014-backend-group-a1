@@ -52,7 +52,7 @@ public class HrServiceImpl implements HrService {
         CreateStaffResponse response = CreateStaffResponse.builder()
                 .contractType(employee.getContractType())
                 .email(employee.getEmail())
-                .firstName(employee.getFirstname())
+                .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .position(employee.getPosition())
                 .teamManager(employee.getTeamManager())
