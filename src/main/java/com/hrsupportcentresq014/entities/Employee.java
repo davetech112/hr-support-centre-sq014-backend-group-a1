@@ -24,7 +24,7 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private String firstname;
 
-    private String middlename;
+    private String nickname;
 
     private String phoneNo;
 
@@ -37,6 +37,13 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private Role role;
 
+    private String department;
+
+    private LocalDate startDate;
+
+    private String workLocation;
+
+    private String contractType;
 
     private Socials social;
 
@@ -50,7 +57,7 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private String position;
 
-    private String reportTo;
+    private String teamManager;
 
     public Employee(String firstname,  String lastName,  String email, String position) {
         this.firstname = firstname;
