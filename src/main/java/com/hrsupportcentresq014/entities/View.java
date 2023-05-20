@@ -1,6 +1,8 @@
 package com.hrsupportcentresq014.entities;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 
 @Getter
