@@ -24,7 +24,7 @@ public class TestUser {
 
         Employee employee = new Employee();
         employee.setLastName("Shola");
-        employee.setFirstname("adebisi");
+        employee.setFirstName("adebisi");
         employee.setEmail("aadebisi11@yahoo.com");
 
         when(employeeRepository.findByEmail("aadebisi11@yahoo.com")).thenReturn(Optional.of(employee));
@@ -36,6 +36,6 @@ public class TestUser {
     @Test
     void saveUser(){
        Employee employee =  employeeRepository.findByEmail("aadebisi11@yahoo.com").get();
-       assertEquals("adebisi", employee.getFirstname());
+       assertEquals("adebisi", employee.getFirstName());
     }
 }

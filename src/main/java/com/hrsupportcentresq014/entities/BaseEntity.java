@@ -7,5 +7,7 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @Id
     private String id;
-    private LocalDateTime createdOn = LocalDateTime.now();
+
+    @CreationTimestamp
+    private LocalDateTime createdOn;
 }
