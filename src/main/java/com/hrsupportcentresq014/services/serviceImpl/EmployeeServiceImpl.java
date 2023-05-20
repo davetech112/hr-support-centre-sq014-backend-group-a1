@@ -52,7 +52,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException(e);
         }
 
+//        Employee employee2 = employeeRepository.save(newEmployee1);
+
 
         return modelMapper.map(employeeRepository.save(newEmployee1), CreateHrResponseDTO.class);
+//         CreateHrResponseDTO n = BeanUtils.copyProperties(employee2, CreateHrResponseDTO.class);
+//        return newEmployee1;
+
     }
 }

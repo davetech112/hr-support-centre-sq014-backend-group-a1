@@ -1,14 +1,17 @@
 package com.hrsupportcentresq014.entities;
 
-import org.hibernate.annotations.CreationTimestamp;
+
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
-public class BaseEntity {
+public abstract class BaseEntity {
     @Id
     private String id;
-
-    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime createdOn;
+    @LastModifiedDate
+    private LocalDateTime updatedOn;
 }
