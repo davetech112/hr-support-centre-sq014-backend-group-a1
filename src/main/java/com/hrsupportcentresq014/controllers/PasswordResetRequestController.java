@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/password")
+@RequestMapping("/api/password")
 public class PasswordResetRequestController {
     private final PasswordResetRequestService resetRequestService;
 
@@ -17,7 +17,7 @@ public class PasswordResetRequestController {
         this.resetRequestService = resetRequestService;
     }
 
-    @PostMapping("/forgot-password/")
+    @PostMapping("/forgot-password")
     public ResponseEntity<String> resetPassword(@RequestParam String email) throws MessagingException {
         return ResponseEntity.ok(resetRequestService.resetPassword(email));
     }

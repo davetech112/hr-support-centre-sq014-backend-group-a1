@@ -79,7 +79,7 @@ public class MailServiceImpl implements MailService {
 
             messageController.setTo(receiverEmail);
             messageController.setSubject("Password Reset");
-            messageController.setText(resetUrl);
+            messageController.setText(resetUrl, true);
             messageController.setFrom(email);
 
             javaMailSender.send(message);

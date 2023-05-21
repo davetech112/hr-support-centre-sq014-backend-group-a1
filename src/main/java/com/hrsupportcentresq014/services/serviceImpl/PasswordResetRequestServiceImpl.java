@@ -29,13 +29,17 @@ public class PasswordResetRequestServiceImpl implements PasswordResetRequestServ
     public String resetPassword(String email) throws MessagingException {
         String resetToken;
         resetToken = UUID.randomUUID().toString();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(10);
+        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(30);
         PasswordResetRequest resetRequest = new PasswordResetRequest();
         resetRequest.setEmail(email);
         resetRequest.setResetToken(resetToken);
         resetRequest.setExpirationDate(expirationDate);
         resetRequestRepo.save(resetRequest);
-        String resetEmailUrl = "Click the following link to reset your password: http://your_website.com/reset-password?token=" + resetToken;
+        String resetEmailUrl = """
+                <div>
+                <a href="http://localhost:8080/api/password/password-reset-confirmation?resetToken=%s"> Click the following link to reset your password</a>
+                </div>
+                """.formatted(resetToken);
 
         mailService.passwordReset(resetEmailUrl, email);
         return "Password reset process initiated";
