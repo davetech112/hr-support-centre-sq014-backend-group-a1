@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 @Service
 public class MailServiceImpl implements MailService {
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
     private String email;
@@ -20,14 +20,16 @@ public class MailServiceImpl implements MailService {
         this.javaMailSender = javaMailSender;
     }
     @Override
-    public void sendMailTest(String senderEmail,String messageSubject, String messageBody) throws MessagingException {
+    public void sendMailTest(String senderEmail, String messageSubject, String messageBody){
+        MimeMessage message = javaMailSender.createMimeMessage();
 
-            MimeMessage message = javaMailSender.createMimeMessage();
-
-            MimeMessageHelper messageController = new MimeMessageHelper(
+        MimeMessageHelper messageController = null;
+        try {
+            messageController = new MimeMessageHelper(
                     message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
+
 
             messageController.setFrom(email);
             messageController.setTo(senderEmail);
@@ -35,36 +37,45 @@ public class MailServiceImpl implements MailService {
             messageController.setText(messageBody);
 
             javaMailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void sendAccountActivation(String receiverEmail, String activationMessage) throws MessagingException {
-
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper messageController = new MimeMessageHelper(
+    public void sendAccountActivation(String receiverEmail, String activationUrl){
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageController = null;
+        try {
+            messageController = new MimeMessageHelper(
                     message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name()
             );
+
 
             messageController.setTo(receiverEmail);
             messageController.setSubject("Welcome to H.R.M.S ");
-            messageController.setText(activationMessage);
+            messageController.setText(activationUrl);
             messageController.setFrom(email);
 
             javaMailSender.send(message);
-
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void passwordReset(String resetUrl, String receiverEmail) throws MessagingException {
-
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper messageController = new MimeMessageHelper(
+    public void passwordReset(String resetUrl, String receiverEmail){
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageController = null;
+        try {
+            messageController = new MimeMessageHelper(
                     message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name()
             );
+
 
             messageController.setTo(receiverEmail);
             messageController.setSubject("Password Reset");
@@ -72,6 +83,8 @@ public class MailServiceImpl implements MailService {
             messageController.setFrom(email);
 
             javaMailSender.send(message);
-
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
