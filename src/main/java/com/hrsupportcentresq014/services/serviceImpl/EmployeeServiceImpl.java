@@ -45,12 +45,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 //         newEmployee1.setCreatedOn();
 
 
-        try {
-            String message =   "   Welcome to Decagon!: " + hrDTO.getFirstName() + "Your password is : " + password + "  click here for a password Reset";
-            mailService.sendAccountActivation(hrDTO.getEmail(),message);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+        String message =   "   Welcome to Decagon!: " + hrDTO.getFirstName() + "Your password is : " + password + "  click here for a password Reset";
+        mailService.sendAccountActivation(hrDTO.getEmail(),message);
 
 //        Employee employee2 = employeeRepository.save(newEmployee1);
 
