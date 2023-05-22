@@ -8,6 +8,7 @@ import com.hrsupportcentresq014.repositories.PasswordResetRequestRepository;
 import com.hrsupportcentresq014.services.MailService;
 import com.hrsupportcentresq014.services.PasswordResetRequestService;
 import jakarta.mail.MessagingException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,7 +27,7 @@ public class PasswordResetRequestServiceImpl implements PasswordResetRequestServ
     }
 
     @Override
-    public String resetPassword(String email) throws MessagingException {
+    public ResponseEntity<String> resetPassword(String email) throws MessagingException {
         String resetToken;
         resetToken = UUID.randomUUID().toString();
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(10);
@@ -38,11 +39,11 @@ public class PasswordResetRequestServiceImpl implements PasswordResetRequestServ
         String resetEmailUrl = "Click the following link to reset your password: http://your_website.com/reset-password?token=" + resetToken;
 
         mailService.passwordReset(resetEmailUrl, email);
-        return "Password reset process initiated";
+        return ResponseEntity.ok("Please check your email!");
     }
 
     @Override
-    public String completePasswordReset(String resetToken, String newPassword) {
+    public ResponseEntity<String> completePasswordReset(String resetToken, String newPassword) {
         PasswordResetRequest resetRequest = resetRequestRepo.findPasswordResetRequestByResetToken(resetToken);
         if((resetRequest == null) || resetRequest.getExpirationDate().isBefore(LocalDateTime.now())){
             throw new RuntimeException("Invalid or expired token");
@@ -52,6 +53,6 @@ public class PasswordResetRequestServiceImpl implements PasswordResetRequestServ
             employeeToResetPassword.setPassword(newPassword);
             employeeRepo.save(employeeToResetPassword);
         }
-        return "Password reset successful";
+        return ResponseEntity.ok("Password reset successful");
     }
 }

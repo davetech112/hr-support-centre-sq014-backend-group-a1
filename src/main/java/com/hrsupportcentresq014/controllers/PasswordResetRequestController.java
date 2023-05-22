@@ -19,12 +19,12 @@ public class PasswordResetRequestController {
 
     @PostMapping("/forgot-password/")
     public ResponseEntity<String> resetPassword(@RequestParam String email) throws MessagingException {
-        return ResponseEntity.ok(resetRequestService.resetPassword(email));
+        return resetRequestService.resetPassword(email);
     }
 
     @PostMapping("/password-reset-confirmation")
     public ResponseEntity<String> confirmPasswordReset(@RequestParam("resetToken") String resetToken,
                                                        @RequestParam("newPassword") String newPassword){
-        return ResponseEntity.ok(resetRequestService.completePasswordReset(resetToken, newPassword));
+        return resetRequestService.completePasswordReset(resetToken, newPassword);
     }
 }
