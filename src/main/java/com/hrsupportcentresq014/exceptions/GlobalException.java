@@ -1,24 +1,28 @@
 package com.hrsupportcentresq014.exceptions;
 
+
 import com.hrsupportcentresq014.dtos.request.ErrorDetails;
-import com.hrsupportcentresq014.dtos.response.CustomErrorResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.SendFailedException;
 import jakarta.mail.internet.AddressException;
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.naming.AuthenticationException;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 
 @RestControllerAdvice
 public class GlobalException {
@@ -46,41 +50,76 @@ public class GlobalException {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler
-    public ResponseEntity<ErrorDetails> genericAuthenticationHandler(AuthenticationException ex, HttpServletRequest request){
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorDetails> genericJwtHandler(Exception ex, HttpServletRequest request){
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
-        return new ResponseEntity<>(errorDetails, HttpStatus.REQUEST_TIMEOUT);
-    }
 
-    @ExceptionHandler(value = EmailNotFoundException.class)
-    public ResponseEntity<ErrorDetails> EmailNotFoundHandler(EmailNotFoundException ex, HttpServletRequest request){
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getRequestURI());
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(value = EmployeeExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserExistsException(EmployeeExistsException ex) {
+        ErrorResponse response = new ErrorResponse();
+        response.setErrorCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(LocalDate.now());
+        response.setResponse(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException e
-    ){
-        Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getAllErrors().forEach((error)->{
-            String fieldName = ((FieldError)error).getField();
-            String message = error.getDefaultMessage();
-            errors.put(fieldName, message);
-        });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex){
+        ErrorResponse response = new ErrorResponse();
+        response.setErrorCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(LocalDate.now());
+        response.setResponse(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<CustomErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e){
-        CustomErrorResponse response = new CustomErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.CONFLICT);
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = InvalidDateException.class)//handle invalid date
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(InvalidDateException ex){
+        ErrorResponse response = new ErrorResponse();
+        response.setErrorCode(HttpStatus.BAD_REQUEST.value());
+        response.setTimestamp(LocalDate.now());
+        response.setResponse(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, List<String>>> handleMethodArgumentValidException(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors()
+                .stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+
+
+
+    private Map<String, List<String>> getErrorsMap(List<String> errors) {
+        Map<String, List<String>> errorResponse = new HashMap<>();
+        errorResponse.put("errors", errors);
+        return errorResponse;
+    }
+
+
+
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = NoRoleFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRoleNotFoundException(NoRoleFoundException ex){
+        ErrorResponse response = new ErrorResponse();
+        response.setErrorCode(HttpStatus.NOT_FOUND.value());
+        response.setTimestamp(LocalDate.now());
+        response.setResponse(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
 
 }
