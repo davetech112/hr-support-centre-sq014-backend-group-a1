@@ -47,13 +47,19 @@ public class Employee extends BaseEntity implements UserDetails{
 
     private Socials social;
 
-    private String pictureUrl;
-
-    private String resumeUrl;
-
-
+    private String imageUrl;
+    private String fileType;
+    private String fileName;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dob;
+    private LocalDate birthday;
+    private LocalDate lastUpdated = LocalDate.now();
+
+    private String address;
+
+    private String nextOfKin;
+
+    private String maritalStatus;
+
 
     private String position;
 
