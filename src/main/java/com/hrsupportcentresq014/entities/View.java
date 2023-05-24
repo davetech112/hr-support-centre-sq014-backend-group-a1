@@ -1,5 +1,6 @@
 package com.hrsupportcentresq014.entities;
 
+
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;

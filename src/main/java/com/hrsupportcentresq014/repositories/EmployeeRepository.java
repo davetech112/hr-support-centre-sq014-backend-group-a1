@@ -11,9 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
-
     Optional<Employee> findByEmail(String username);
+
     Page<Employee> findAllByRole(Role role, Pageable pageable);
-
-
 }
