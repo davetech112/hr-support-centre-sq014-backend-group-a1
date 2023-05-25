@@ -1,11 +1,10 @@
 package com.hrsupportcentresq014.services.serviceImpl;
 
 import com.hrsupportcentresq014.dtos.request.CreateStaffRequest;
-import com.hrsupportcentresq014.dtos.response.CreateStaffResponse;
-import com.hrsupportcentresq014.dtos.response.ViewStaffResponse;
-import com.hrsupportcentresq014.dtos.response.ViewStaffResponseDTO;
+import com.hrsupportcentresq014.dtos.response.*;
 import com.hrsupportcentresq014.entities.Employee;
 import com.hrsupportcentresq014.entities.Role;
+import com.hrsupportcentresq014.exceptions.EmployeeNotFoundException;
 import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
 import com.hrsupportcentresq014.repositories.EmployeeRepository;
 import com.hrsupportcentresq014.repositories.RoleRepository;
@@ -104,4 +103,17 @@ public class HrServiceImpl implements HrService {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @Override
+    public StaffProfileDTO getStaffProfile(String id) throws EmployeeNotFoundException {
+        Optional<Employee> employeeOptional = repository.findById(id);
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            StaffProfileDTO staffProfileDTO = StaffProfileMapper.mapEmployeeToStaffProfileDTO(employee);
+
+            return staffProfileDTO;
+        }
+        throw new EmployeeNotFoundException("Employee with ID " + id + " not found");
+    }
+
 }

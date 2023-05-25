@@ -2,7 +2,9 @@ package com.hrsupportcentresq014.controllers;
 
 import com.hrsupportcentresq014.dtos.request.CreateStaffRequest;
 import com.hrsupportcentresq014.dtos.response.CreateStaffResponse;
+import com.hrsupportcentresq014.dtos.response.StaffProfileDTO;
 import com.hrsupportcentresq014.dtos.response.ViewStaffResponse;
+import com.hrsupportcentresq014.exceptions.EmployeeNotFoundException;
 import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
 import com.hrsupportcentresq014.services.HrService;
 import com.hrsupportcentresq014.utils.PaginationConstants;
@@ -26,7 +28,18 @@ public class HRController {
     public ResponseEntity<CreateStaffResponse> registerStaffByHR(@Valid @RequestBody CreateStaffRequest staff) throws UserAlreadyExistsException, MessagingException {
         return hrService.registerStaff(staff);
     }
-    @GetMapping("/view-all-staff")
+
+  @GetMapping("/{id}")
+// @PreAuthorize("hasRole('HR')")
+  public ResponseEntity<StaffProfileDTO> getStaffProfile(@PathVariable("id") String id) throws  EmployeeNotFoundException {
+    StaffProfileDTO staffProfileDTO = hrService.getStaffProfile(id);
+    if (staffProfileDTO != null) {
+      return ResponseEntity.ok(staffProfileDTO);
+    }
+    return ResponseEntity.notFound().build();
+  }
+
+  @GetMapping("/view-all-staff")
     public ViewStaffResponse viewAllStaff(@RequestParam(value = "pageNo", defaultValue = PaginationConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
                                           @RequestParam(value = "pageSize", defaultValue = PaginationConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
                                           @RequestParam(value = "sortBy", defaultValue = PaginationConstants.DEFAULT_SORT_BY, required = false) String sortBy,
