@@ -1,9 +1,9 @@
 package com.hrsupportcentresq014.dtos.response;
 
+import com.hrsupportcentresq014.entities.NextOfKin;
+import com.hrsupportcentresq014.utils.Social;
 import lombok.*;
-
 import java.time.LocalDate;
-
 
 @Setter
 @Getter
@@ -12,18 +12,12 @@ import java.time.LocalDate;
 @Builder
 public class EmployeeProfileResponse {
     private String email;
-
-    private String fileName;
-
     private String imageUrl;
-
-    private String fileType;
-
+    private String resumeUrl;
     private LocalDate birthday;
-    private LocalDate lastUpdated = LocalDate.now();
     private String address;
-
-    private String nextOfKin;
-
+    private NextOfKin nextOfKin;
+    private Social social;
+    private String nationality;
     private String maritalStatus;
 }

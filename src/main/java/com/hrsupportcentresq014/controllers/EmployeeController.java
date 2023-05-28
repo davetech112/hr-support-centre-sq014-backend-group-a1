@@ -25,36 +25,25 @@ public class EmployeeController {
     }
 
 
-    @PutMapping("/profile/{id}")
-    public ResponseEntity<EmployeeProfileRequest> updateEmployeeProfile(@PathVariable("id") String id, @RequestBody @Valid EmployeeProfileRequest employeeProfileRequest) {
+    @PutMapping("/profile")
+    public ResponseEntity<EmployeeProfileRequest> updateEmployeeProfile(@RequestBody @Valid EmployeeProfileRequest employeeProfileRequest) {
         log.info("Updating Employee Profile");
-        EmployeeProfileRequest response = employeeService.updateEmployeeProfile(id, employeeProfileRequest);
+        EmployeeProfileRequest response = employeeService.updateEmployeeProfile(employeeProfileRequest);
         log.info("Your Profile has been successfully updated");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
     @PostMapping("/add-pic")
-    public String uploadProfilePic(@RequestParam("image") MultipartFile multipartFile, Model model) throws IOException {
-        String imageURL = employeeService.uploadDocument(multipartFile);
-        model.addAttribute("imageUrl", imageURL);
-        return "gallery";
+    public ResponseEntity<String> uploadProfilePic(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+        String imageURL = employeeService.uploadImage(multipartFile);
+        return ResponseEntity.ok(imageURL);
     }
 
+    @PostMapping("/add-resume")
+        public ResponseEntity<String> uploadResume(@RequestParam("resume") MultipartFile multipartFile){
+        String resumeUrl = employeeService.uploadResume(multipartFile);
+        return ResponseEntity.ok(resumeUrl);
+        }
 
 
-//    @PutMapping("/profile/{id}")
-//    public ResponseEntity<String> updateEmployeeProfileInfo(@PathVariable("id") String id,
-//                                                            @RequestBody
-//                                                            @Valid EmployeeProfileRequest employeeProfileRequest) {
-//        log.info("Updating Employee Profile");
-//        employeeService.updateEmployeeProfile(id, employeeProfileRequest);
-//        log.info("Your Profile has been successfully updated");
-//        return ResponseEntity.ok("Updated");
-//
-//    }
-//    @PostMapping("/add-pic")
-//    public ResponseEntity<String> uploadEmoloyeeProfilePic(@RequestParam("image")MultipartFile multipartFile) throws IOException {
-//        employeeService.uploadDocument(multipartFile);
-//        return ResponseEntity.ok("gallery");
-//    }
 }

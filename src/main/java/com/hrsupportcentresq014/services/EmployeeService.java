@@ -8,7 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 public interface EmployeeService {
     CreateHrResponseDTO createHr (CreateHrResponseDTO hrDTO) throws UserAlreadyExistsException;
 
-    EmployeeProfileRequest updateEmployeeProfile(String id, EmployeeProfileRequest employeeProfileRequest);
+    EmployeeProfileRequest updateEmployeeProfile(EmployeeProfileRequest employeeProfileRequest);
 
     String uploadDocument(MultipartFile multipartFile);
+
+    String uploadImage(MultipartFile multipartFile);
+
+    String uploadResume(MultipartFile multipartFile);
 }

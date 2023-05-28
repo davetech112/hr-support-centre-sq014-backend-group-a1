@@ -1,6 +1,7 @@
-package com.hrsupportcentresq014.config;
+package com.hrsupportcentresq014.cloudinaryconfig;
 
 import com.cloudinary.Cloudinary;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,9 +10,12 @@ import java.util.Map;
 
 @Configuration
 public class CloudinaryConfiguration {
-    private final String CLOUD_NAME = "dywhpampa";
-    private final String API_KEY = "328139327964175";
-    private final String API_SECRET = "-T2CEOL5UgkB8r5-bQzn0aP4hdM";
+    @Value("${application.cloudinary.cloud_name}")
+    private  String CLOUD_NAME;
+    @Value("${application.cloudinary.Api_key}")
+    private String API_KEY;
+    @Value("${application.cloudinary.Api_secret}")
+    private  String API_SECRET ;
 
     @Bean
     public Cloudinary cloudinaryConfig() {
