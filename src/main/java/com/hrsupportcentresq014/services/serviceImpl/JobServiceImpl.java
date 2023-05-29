@@ -1,25 +1,23 @@
 package com.hrsupportcentresq014.services.serviceImpl;
 
-import com.hrsupportcentresq014.dtos.request.JobSearchRequest;
 import com.hrsupportcentresq014.dtos.response.JobResponseDto;
 import com.hrsupportcentresq014.dtos.response.JobSearchResponse;
 import com.hrsupportcentresq014.entities.Job;
 import com.hrsupportcentresq014.exceptions.NoJobsFoundException;
-import com.hrsupportcentresq014.repositories.JobRepository;
 import com.hrsupportcentresq014.services.JobService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
