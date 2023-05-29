@@ -23,14 +23,14 @@ public class JobController {
     }
 
 
-    @GetMapping("/search")
-    public ResponseEntity<Page<JobSearchResponse>> search(
+    @GetMapping("/filter")
+    public ResponseEntity<Page<JobSearchResponse>> filterJob(
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestParam(name = "size", defaultValue = "6") Integer size,
             @RequestParam(value = "keywords", required = false) String keywords,
             @RequestParam(value = "filter", defaultValue = "newest") String filter,
             @RequestParam(value = "department", required = false) String department) throws NoJobsFoundException {
         Pageable pageable = PageRequest.of(page, size);
-         return ResponseEntity.ok(jobService.searchJobs(keywords, filter, department, pageable));
+         return ResponseEntity.ok(jobService.filterJobs(keywords, filter, department, pageable));
     }
 }

@@ -37,7 +37,7 @@ public class JobServiceImpl implements JobService {
 
 
     @Override
-    public Page<JobSearchResponse> searchJobs(String keywords, String filter, String department, Pageable pageable) throws NoJobsFoundException {
+    public Page<JobSearchResponse> filterJobs(String keywords, String filter, String department, Pageable pageable) throws NoJobsFoundException {
         Query query = new Query().with(pageable);
         List<Criteria> criteriaList = new ArrayList<>();
 
