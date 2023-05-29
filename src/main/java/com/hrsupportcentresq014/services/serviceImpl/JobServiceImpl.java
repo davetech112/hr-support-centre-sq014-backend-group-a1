@@ -23,10 +23,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
-@RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
 
-    private MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
 
     @Autowired
     public JobServiceImpl( MongoTemplate mongoTemplate) {
