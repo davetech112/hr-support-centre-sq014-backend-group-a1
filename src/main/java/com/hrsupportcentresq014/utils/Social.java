@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Socials {
+public class Social {
 
     private String linkedIn;
     private String facebook;
+    private  String twitter;
 }

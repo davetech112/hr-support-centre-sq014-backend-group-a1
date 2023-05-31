@@ -2,11 +2,13 @@ package com.hrsupportcentresq014.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hrsupportcentresq014.entities.entityUtil.Socials;
+import com.hrsupportcentresq014.utils.Social;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,16 +46,20 @@ public class Employee extends BaseEntity implements UserDetails{
     private String workLocation;
 
     private String contractType;
-
-    private Socials social;
-
-    private String pictureUrl;
-
+    private Social social;
+    private String imageUrl;
     private String resumeUrl;
 
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dob;
+    private LocalDate birthday;
+
+    private String address;
+
+    private NextOfKin nextOfKin;
+     private String nationality;
+
+    private String maritalStatus;
 
     private String position;
 

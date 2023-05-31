@@ -21,7 +21,7 @@ public class Mapper {
     //map to entity
     public Employee toEntity(AdminRequest adminRequest){
         return Employee.builder()
-                .dob(LocalDate.parse(adminRequest.getDateOfBirth().trim()))
+                .birthday(LocalDate.parse(adminRequest.getDateOfBirth().trim()))
                 .phoneNo(adminRequest.getPhoneNumber().trim())
                 .position("Manager")
                 .firstName(adminRequest.getFirstName().trim())
@@ -37,7 +37,7 @@ public class Mapper {
                 .firstName(employee.getFirstName())
                 .nickName(employee.getNickName())
                 .lastName(employee.getLastName())
-                .dateOfBirth(employee.getDob().toString())
+                .dateOfBirth(employee.getBirthday().toString())
                 .email(employee.getEmail())
                 .phoneNumber(employee.getPhoneNo())
                 .role(employee.getRole())
