@@ -1,17 +1,16 @@
 package com.hrsupportcentresq014.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -19,18 +18,15 @@ import java.util.List;
 public class Job extends BaseEntity{
 
     private String title;
-
     private String description;
-
-    // in mango, there is nothing like manytoone mapping. the best way to associate a particular post with a department
-    // is by saving the id of the department in the job class.
+    private String requirements;
     private String departmentName;
+    private String closingDate;
+    private Boolean isActive;
+    private Integer totalNumberOfApplicants;
+    @DBRef
+    private List<Employee> listOfApplicant = new ArrayList<>();
 
-   @DBRef
-   private List<View> listOfView = new ArrayList<>();
-
-   @DBRef
-   private List<Applicant> listOfApplicant = new ArrayList<>();
 
 
 }
