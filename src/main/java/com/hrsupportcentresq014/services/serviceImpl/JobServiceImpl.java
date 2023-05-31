@@ -5,7 +5,6 @@ import com.hrsupportcentresq014.dtos.response.JobSearchResponse;
 import com.hrsupportcentresq014.entities.Job;
 import com.hrsupportcentresq014.exceptions.NoJobsFoundException;
 import com.hrsupportcentresq014.services.JobService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -70,7 +69,9 @@ public class JobServiceImpl implements JobService {
             throw new NoJobsFoundException("No Jobs found");
         }
 
-        List<JobResponseDto> jobResponseDtoList = jobPage.getContent().stream().map(this::toJobResponseDTO).collect(Collectors.toList());
+        List<JobResponseDto> jobResponseDtoList = jobPage.getContent().stream()
+                .filter(Job::getIsActive)
+                .map(this::toJobResponseDTO).collect(Collectors.toList());
         JobSearchResponse jobSearchResponse = new JobSearchResponse(jobResponseDtoList, jobPage.getTotalPages(), jobPage.getTotalElements(), null);
         return new PageImpl<>(Collections.singletonList(jobSearchResponse), pageable, 1);
     }
