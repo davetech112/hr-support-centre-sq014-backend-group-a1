@@ -26,27 +26,15 @@ public class AwardsServiceImpl implements AwardService {
     }
 
     @Override
-    public String createAward(AwardRequestDTO awardRequestDTO) throws AwardsNotFoundException, AccessDeniedException {
+    public String createAward(AwardRequestDTO awardRequestDTO) throws AwardsNotFoundException{
 
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-
-        boolean isHrUser = authorities.stream()
-                .anyMatch(auth -> auth.getAuthority().equals("HR"));
-
-        if (!isHrUser) {
-            throw new AccessDeniedException("Only HR users are allowed to create awards.");
-        }
 
         Award awards = new Award();
         awards.setTitle(awardRequestDTO.getTitle());
         awards.setDescription(awardRequestDTO.getDescription());
         awards.setYear(LocalDate.now().getYear());
-        awards.setCreatedBy(username);
-
         Award savedAward = awardsRepository.save(awards);
 
         return "Award created successfully: " + savedAward.getTitle();

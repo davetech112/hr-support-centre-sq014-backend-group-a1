@@ -7,9 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.nio.file.AccessDeniedException;
+import java.util.Collection;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +23,19 @@ public class AwardController {
     private final AwardService awardsService;
 
     @PostMapping("/register")
-//@PreAuthorize("hasRole('HR')")
     public ResponseEntity<String> createAward(@RequestBody AwardRequestDTO awardRequestDTO) throws AccessDeniedException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        boolean isHrUser = authorities.stream()
+                .anyMatch(auth -> auth.getAuthority().equals("HR"));
+
+        if (!isHrUser) {
+            throw new AccessDeniedException("Only HR users are allowed to create awards.");
+        }
+
         String response = awardsService.createAward(awardRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
 }

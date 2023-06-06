@@ -25,8 +25,7 @@ public class Award extends BaseEntity {
 
     private LocalDate date;
 
-    public void setCreatedBy(String username) {
-    }
+
 
 
 }
