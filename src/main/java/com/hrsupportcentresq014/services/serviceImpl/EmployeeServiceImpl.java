@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
 import com.hrsupportcentresq014.dtos.response.CreateHrResponseDTO;
 import com.hrsupportcentresq014.entities.Employee;
+import com.hrsupportcentresq014.exceptions.EmployeeExistsException;
 import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
 import com.hrsupportcentresq014.repositories.EmployeeRepository;
 import com.hrsupportcentresq014.repositories.RoleRepository;
@@ -40,21 +41,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public CreateHrResponseDTO createHr(CreateHrResponseDTO hrDTO) throws UserAlreadyExistsException {
+    public CreateHrResponseDTO createHr(CreateHrResponseDTO hrDTO) throws EmployeeExistsException {
         String password = UUID.randomUUID().toString();
 
         Optional<Employee> foundEmployee =
                 employeeRepository.findByEmail(hrDTO.getEmail());
 
         if (foundEmployee.isPresent()) {
-            throw new UserAlreadyExistsException("User already exists");
+            throw new EmployeeExistsException("User already exists");
         }
 
         Employee newEmployee1 = new Employee();
         BeanUtils.copyProperties(hrDTO, newEmployee1);
         newEmployee1.setRole(roleRepository.findRoleById("hr").get());
         newEmployee1.setPassword(passwordEncoder.encode(password));
-//         newEmployee1.setCreatedOn();
+//
 
 
         String message =   "   Welcome to Decagon!: " + hrDTO.getFirstName() + "Your password is : " + password + "  click here for a password Reset";

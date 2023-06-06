@@ -3,6 +3,9 @@ package com.hrsupportcentresq014.controllers;
 
 import com.hrsupportcentresq014.dtos.request.AdminRequest;
 import com.hrsupportcentresq014.dtos.response.AdminResponse;
+import com.hrsupportcentresq014.dtos.response.CreateHrResponseDTO;
+import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
+import com.hrsupportcentresq014.services.EmployeeService;
 import com.hrsupportcentresq014.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +25,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @RequestMapping("/api/v1/admin")
 public class AdminController {
     private final UserService userService;
+    private final EmployeeService employeeService;
     @PostMapping(name = "RegisterAdmin", value = "/register")
     public ResponseEntity<AdminResponse> registerAdmin(@Valid @RequestBody AdminRequest adminRequest){
         log.info("Registering Admin with payload {}", adminRequest);
         AdminResponse adminResponse = userService.register(adminRequest);
         return new ResponseEntity<>(adminResponse, HttpStatus.CREATED);
+    }
+    @PostMapping("/register-hr")
+        public ResponseEntity<CreateHrResponseDTO> createHr(@RequestBody CreateHrResponseDTO hrDTO) throws UserAlreadyExistsException {
+        return new ResponseEntity<>(employeeService.createHr(hrDTO), HttpStatus.CREATED);
     }
 }
