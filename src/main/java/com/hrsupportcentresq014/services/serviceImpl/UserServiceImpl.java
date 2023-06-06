@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService {
             log.error("Check that Date of Birth is not in the future or far into the past");
             throw new InvalidDateException("invalid: date of birth is not valid. ");
         }
-
         Optional<Role> adminRole = roleRepository.findRoleById("admin");
         if(adminRole.isPresent()) {
             Employee employee = mapper.toEntity(adminRequest);
