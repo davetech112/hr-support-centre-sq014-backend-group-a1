@@ -55,5 +55,20 @@ public class RoleServiceImpl implements RoleService {
       Role role = employee.getRole();
       return role.getName().equalsIgnoreCase("ADMIN");
     }
+    @Override
+    public AddRoleResponse addPermission(AddPermissionRequest request, String role_id){
+        if(getEmployeeRole()) {
+            Role role = roleRepository.findRoleById(role_id)
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+            Permission permission = new Permission();
+            permission.setPermission(request.getPermission().toUpperCase());
+            role.getPermissions().add(permission);
+            Role roles = roleRepository.save(role);
+            return AddRoleResponse.builder()
+                    .role(roles)
+                    .build();
+        }
+        throw new RuntimeException("Logged in User doesn't have the required authorities to perform function");
+    }
 
 }

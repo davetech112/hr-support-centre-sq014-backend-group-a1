@@ -34,5 +34,10 @@ public class AdminController {
     public ResponseEntity<?> addRoles (@RequestBody AddRoleRequest addRole){
         return new ResponseEntity<>(roleService.addRoles(addRole), HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/add-role-permissions/{role_id}")
+    public ResponseEntity<?> addPermissions (@RequestBody AddPermissionRequest request, @PathVariable String role_id)
+    {
+        return new ResponseEntity<>(roleService.addPermission(request, role_id), HttpStatus.CREATED);
+    }
 }
