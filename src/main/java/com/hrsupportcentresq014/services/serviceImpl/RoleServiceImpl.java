@@ -38,7 +38,6 @@ public class RoleServiceImpl implements RoleService {
                     .role(roles)
                     .build();
         }
-            //todo exceptions need to be corrected
             throw new RuntimeException(EXCEPTION_RESPONSE);
     }
 
