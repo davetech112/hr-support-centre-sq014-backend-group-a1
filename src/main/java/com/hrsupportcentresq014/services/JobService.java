@@ -11,4 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface JobService {
     Page<JobSearchResponse> filterJobs(String keywords, String filter, String department, Pageable pageable) throws NoJobsFoundException;
+    Page<JobSearchResponse> filterAllJobs(String keywords, String filter, String department, Pageable pageable) throws NoJobsFoundException;
+
 }
