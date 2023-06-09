@@ -76,6 +76,50 @@ public class JobServiceImpl implements JobService {
         return new PageImpl<>(Collections.singletonList(jobSearchResponse), pageable, 1);
     }
 
+    @Override
+    public Page<JobSearchResponse> filterAllJobs(String keywords, String filter, String department, Pageable pageable) throws NoJobsFoundException {
+        Query query = new Query().with(pageable);
+        List<Criteria> criteriaList = new ArrayList<>();
+
+        if (keywords != null) {
+            criteriaList.add(Criteria.where("title").regex(keywords, "i")); // Using regex for case-insensitive search
+        }
+
+        if (department != null) {
+            criteriaList.add(Criteria.where("departmentName").is(department));
+        }
+
+        if ("newest".equalsIgnoreCase(filter)) {
+            // Sort by descending order of createdOn field to get the newest jobs
+            query.with(Sort.by(Sort.Direction.DESC, "createdOn"));
+        } else if ("oldest".equalsIgnoreCase(filter)) {
+            // Sort by ascending order of createdOn field to get the oldest jobs
+            query.with(Sort.by(Sort.Direction.ASC, "createdOn"));
+        }
+
+        if ("past_week".equalsIgnoreCase(filter)) {
+            // Filter jobs created in the past week
+            LocalDate weekAgo = LocalDate.now().minusWeeks(1);
+            criteriaList.add(Criteria.where("createdOn").gte(weekAgo.atStartOfDay()));
+        }
+
+        if (!criteriaList.isEmpty()) {
+            query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
+        }
+
+        Page<Job> jobPage = PageableExecutionUtils.getPage(mongoTemplate.find(query, Job.class), pageable, () -> mongoTemplate.count(query, Job.class));
+
+        if (jobPage.isEmpty()) {
+            throw new NoJobsFoundException("No Jobs found");
+        }
+
+        List<JobResponseDto> jobResponseDtoList = jobPage.getContent().stream()
+                .map(this::toJobResponseDTO).collect(Collectors.toList());
+        JobSearchResponse jobSearchResponse = new JobSearchResponse(jobResponseDtoList, jobPage.getTotalPages(), jobPage.getTotalElements(), null);
+        return new PageImpl<>(Collections.singletonList(jobSearchResponse), pageable, 1);
+    }
+
+
     private JobResponseDto toJobResponseDTO(Job job) {
         return JobResponseDto.builder()
                 .title(job.getTitle())
