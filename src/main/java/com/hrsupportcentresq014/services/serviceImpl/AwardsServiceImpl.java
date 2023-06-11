@@ -49,7 +49,7 @@ public class AwardsServiceImpl implements AwardService {
 
     @Override
     public List<AwardResponseDTO> getAwardByYear(String year) {
-        List<Award> foundAwards = awardsRepository.findByYear(Integer.parseInt(year));
+        List<Award> foundAwards = awardsRepository.findAwardByYear(Integer.parseInt(year));
 
         if (foundAwards.isEmpty()) {
             throw new AwardsNotFoundException(String.format("Award not found for year %s", year));

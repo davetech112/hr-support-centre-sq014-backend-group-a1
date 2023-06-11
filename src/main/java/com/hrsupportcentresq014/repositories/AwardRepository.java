@@ -14,4 +14,5 @@ public interface AwardRepository extends MongoRepository<Award, String> {
     // Add custom repository methods if needed
     List<Award> findByYear(Year year);
     Optional<Award> findAwardByTitleAndYear(String title, int year);
+    List<Award> findAwardByYear(int year);
 }
