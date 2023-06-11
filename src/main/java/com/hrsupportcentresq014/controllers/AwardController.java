@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.nio.file.AccessDeniedException;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +38,11 @@ public class AwardController {
 
         String response = awardsService.createAward(awardRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{year}")
+    public ResponseEntity<List<AwardResponseDTO>> getAwardByYear(@PathVariable("year") String year) {
+        var response = awardsService.getAwardByYear(year);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -12,4 +12,7 @@ import java.util.List;
 public interface AwardRepository extends MongoRepository<Award, String> {
     // Add custom repository methods if needed
     List<Award> findByYear(Year year);
+
+    List<Award> findByYear(int year);
+
 }
