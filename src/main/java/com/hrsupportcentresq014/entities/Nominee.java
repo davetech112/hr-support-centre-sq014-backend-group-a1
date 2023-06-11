@@ -1,5 +1,6 @@
 package com.hrsupportcentresq014.entities;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,32 +9,24 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
 @Builder
-public class Award extends BaseEntity {
+public class Nominee extends BaseEntity{
 
-    private String title;
+    private HashMap<String , String> nominators;
 
-    private String description;
-
-    private int year;
-
-    private LocalDate date;
+    private boolean isApproved;
 
     @DBRef
-    private List<Nominee> unapprovedNominees = new ArrayList<>();
+    @JsonIncludeProperties(value = {"id", "firstName", "lastName", "email", "department"})
+    private Employee nominee;
 
     @DBRef
-    private List<Nominee> approvedNominees = new ArrayList<>();
-
-    @DBRef
-    private Nominee recipient;
+    private Award award;
 
 }

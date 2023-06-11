@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Year;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AwardRepository extends MongoRepository<Award, String> {
     // Add custom repository methods if needed
     List<Award> findByYear(Year year);
-
-    List<Award> findByYear(int year);
-
+    Optional<Award> findAwardByTitleAndYear(String title, int year);
 }
