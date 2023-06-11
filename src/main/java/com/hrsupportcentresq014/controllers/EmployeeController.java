@@ -1,6 +1,10 @@
 package com.hrsupportcentresq014.controllers;
 
 import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
+import com.hrsupportcentresq014.dtos.response.CreateHrResponseDTO;
+import com.hrsupportcentresq014.dtos.response.EmployeeProfileResponse;
+import com.hrsupportcentresq014.dtos.response.EmployeeViewProfileResponse;
+import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
 import com.hrsupportcentresq014.services.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +21,7 @@ import java.io.IOException;
 @RequestMapping("/api/v1/staff")
 @Log4j2
 public class EmployeeController {
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public EmployeeController(EmployeeService employeeService) {
@@ -45,5 +49,10 @@ public class EmployeeController {
         return ResponseEntity.ok(resumeUrl);
         }
 
+    @GetMapping("/viewProfile")
+    public ResponseEntity<EmployeeViewProfileResponse> viewProfile(){
+        EmployeeViewProfileResponse employeeViewProfileResponse = employeeService.viewProfile();
+        return ResponseEntity.ok(employeeViewProfileResponse);
+    }
 
 }

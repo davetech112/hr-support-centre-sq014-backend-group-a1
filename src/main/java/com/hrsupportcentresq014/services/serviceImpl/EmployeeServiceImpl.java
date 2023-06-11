@@ -3,6 +3,7 @@ package com.hrsupportcentresq014.services.serviceImpl;
 import com.cloudinary.Cloudinary;
 import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
 import com.hrsupportcentresq014.dtos.response.CreateHrResponseDTO;
+import com.hrsupportcentresq014.dtos.response.EmployeeViewProfileResponse;
 import com.hrsupportcentresq014.entities.Employee;
 import com.hrsupportcentresq014.exceptions.EmployeeExistsException;
 import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
@@ -61,7 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         String message =   "   Welcome to Decagon!: " + hrDTO.getFirstName() + "Your password is : " + password + "  click here for a password Reset";
         mailService.sendAccountActivation(hrDTO.getEmail(),message);
 
-//        Employee employee2 = employeeRepository.save(newEmployee1);
+       Employee employee2 = employeeRepository.save(newEmployee1);
 
 
         return modelMapper.map(employeeRepository.save(newEmployee1), CreateHrResponseDTO.class);
@@ -131,6 +132,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         existingEmployee.setUpdatedOn(LocalDateTime.now());
         employeeRepository.save(existingEmployee);
         return resumeUrl;
+    }
+
+    @Override
+    public EmployeeViewProfileResponse viewProfile() {
+        String email = securityUtils.getCurrentUserDetails().getUsername();
+        Employee employee = getEmployee(email);
+
+        EmployeeViewProfileResponse employeeViewProfileResponse = new EmployeeViewProfileResponse();
+        BeanUtils.copyProperties(employee, employeeViewProfileResponse);
+        return employeeViewProfileResponse;
     }
 
     public EmployeeProfileRequest mapToEmployeeProfileRequest(Employee employee) {
