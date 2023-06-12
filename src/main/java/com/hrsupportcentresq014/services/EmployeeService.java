@@ -1,6 +1,8 @@
 package com.hrsupportcentresq014.services;
 
 import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
+import com.hrsupportcentresq014.dtos.request.NominationApprovalRequest;
+import com.hrsupportcentresq014.dtos.request.NominationRequest;
 import com.hrsupportcentresq014.dtos.response.CreateHrResponseDTO;
 import com.hrsupportcentresq014.dtos.response.EmployeeViewProfileResponse;
 import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
@@ -16,5 +18,6 @@ public interface EmployeeService {
     String uploadImage(MultipartFile multipartFile);
 
     String uploadResume(MultipartFile multipartFile);
+  
     EmployeeViewProfileResponse viewProfile();
 }
