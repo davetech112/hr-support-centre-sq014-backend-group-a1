@@ -2,12 +2,12 @@ package com.hrsupportcentresq014.services;
 
 import com.hrsupportcentresq014.dtos.request.AwardRequestDTO;
 import com.hrsupportcentresq014.dtos.response.AwardResponseDTO;
+import org.springframework.data.domain.Page;
 
 import java.nio.file.AccessDeniedException;
-import java.util.List;
 
 public interface AwardService {
     String createAward(AwardRequestDTO awardRequestDTO) throws AccessDeniedException;
 
-    List<AwardResponseDTO> getAwardByYear(String year);
+    Page<AwardResponseDTO> getAwardByYear(String year, int page, int size);
 }
