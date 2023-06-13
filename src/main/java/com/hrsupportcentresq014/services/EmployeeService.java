@@ -4,7 +4,7 @@ import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
 import com.hrsupportcentresq014.dtos.request.NominationApprovalRequest;
 import com.hrsupportcentresq014.dtos.request.NominationRequest;
 import com.hrsupportcentresq014.dtos.response.CreateHrResponseDTO;
-import com.hrsupportcentresq014.exceptions.DuplicateProcessException;
+import com.hrsupportcentresq014.dtos.response.EmployeeViewProfileResponse;
 import com.hrsupportcentresq014.exceptions.UserAlreadyExistsException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,8 +18,6 @@ public interface EmployeeService {
     String uploadImage(MultipartFile multipartFile);
 
     String uploadResume(MultipartFile multipartFile);
-
-    String nominate(NominationRequest request) throws DuplicateProcessException;
-
-    String approveNomination(NominationApprovalRequest request) throws Exception;
+  
+    EmployeeViewProfileResponse viewProfile();
 }
