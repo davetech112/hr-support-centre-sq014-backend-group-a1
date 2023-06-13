@@ -150,20 +150,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeViewProfileResponse;
     }
 
-    public EmployeeProfileRequest mapToEmployeeProfileRequest(Employee employee) {
-        return EmployeeProfileRequest.builder()
-                .nextOfKin(employee.getNextOfKin())
-                .maritalStatus(employee.getMaritalStatus())
-                .nationality(employee.getNationality())
-                .social(employee.getSocial())
-                .nickName(employee.getNickName())
-                .birthday(employee.getBirthday())
-                .address(employee.getAddress())
-                .build();
-
-    }
-
-
 
         public EmployeeProfileRequest mapToEmployeeProfileRequest (Employee employee){
             return EmployeeProfileRequest.builder()
