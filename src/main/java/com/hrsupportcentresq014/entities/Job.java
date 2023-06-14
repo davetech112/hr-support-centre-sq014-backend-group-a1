@@ -26,7 +26,4 @@ public class Job extends BaseEntity{
     private Integer totalNumberOfApplicants;
     @DBRef
     private List<Employee> listOfApplicant = new ArrayList<>();
-
-
-
 }
