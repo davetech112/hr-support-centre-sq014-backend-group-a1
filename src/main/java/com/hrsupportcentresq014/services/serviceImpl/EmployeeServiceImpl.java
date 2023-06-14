@@ -1,6 +1,7 @@
 package com.hrsupportcentresq014.services.serviceImpl;
 
 import com.cloudinary.Cloudinary;
+import com.hrsupportcentresq014.dtos.request.ChangePasswordRequest;
 import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
 import com.hrsupportcentresq014.dtos.request.NominationApprovalRequest;
 import com.hrsupportcentresq014.dtos.request.NominationRequest;
@@ -18,6 +19,8 @@ import com.hrsupportcentresq014.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -162,6 +165,27 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .address(employee.getAddress())
                     .build();
         }
+
+
+    @Override
+    public boolean verifyCurrentPassword(Employee employee, String enteredPassword) {
+        return passwordEncoder.matches(enteredPassword, employee.getPassword());
+    }
+    @Override
+    public String changePassword(ChangePasswordRequest req, Authentication auth) {
+
+        UserDetails loggedInUser = (UserDetails) auth.getPrincipal();
+        String email = loggedInUser.getUsername();
+        Employee employee = employeeRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User Not Found!"));
+        if (!verifyCurrentPassword(employee, req.getCurrentPassword())) {
+            throw new UnauthorisedException("Password Does Not Match, Enter a correct Password");
+
+        } else {
+            employee.setPassword(passwordEncoder.encode(req.getNewPassword()));
+            employeeRepository.save(employee);
+        }
+        return "Password Changed Successfully";
+    }
 
 }
 
