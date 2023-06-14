@@ -4,14 +4,13 @@ import com.hrsupportcentresq014.dtos.request.AwardRequestDTO;
 import com.hrsupportcentresq014.dtos.response.AwardResponseDTO;
 import com.hrsupportcentresq014.services.AwardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.Collection;
@@ -37,5 +36,13 @@ public class AwardController {
 
         String response = awardsService.createAward(awardRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{year}")
+    public ResponseEntity<Page<AwardResponseDTO>> getAwardByYear(@PathVariable("year") String year,
+                                                                 @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                 @RequestParam(value = "size", defaultValue = "10") int size) {
+        var response = awardsService.getAwardByYear(year, page, size);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
