@@ -1,15 +1,20 @@
 package com.hrsupportcentresq014.services.serviceImpl;
 
 
+
+
 import com.hrsupportcentresq014.dtos.request.AdminRequest;
+import com.hrsupportcentresq014.dtos.request.JobPostingRequest;
 import com.hrsupportcentresq014.dtos.response.AdminResponse;
+import com.hrsupportcentresq014.dtos.response.JobPostingResponse;
 import com.hrsupportcentresq014.entities.Employee;
+import com.hrsupportcentresq014.entities.Job;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-
 import java.time.LocalDate;
+
+
 
 
 @Component
@@ -42,6 +47,29 @@ public class Mapper {
                 .phoneNumber(employee.getPhoneNo())
                 .role(employee.getRole())
                 .position(employee.getPosition())
+                .build();
+    }
+
+
+    public JobPostingResponse jobToResponse(Job job){
+        return JobPostingResponse.builder()
+                .title(job.getTitle())
+                .description(job.getDescription())
+                .requirements(job.getRequirements())
+                .closingDate(job.getClosingDate())
+                .departmentName(job.getDepartmentName())
+                .isActive(job.getIsActive())
+                .build();
+    }
+
+
+    public Job requestToJob(JobPostingRequest request){
+        return Job.builder()
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .departmentName(request.getDepartmentName())
+                .requirements(request.getRequirements())
+                .closingDate(request.getClosingDate())
                 .build();
     }
 }

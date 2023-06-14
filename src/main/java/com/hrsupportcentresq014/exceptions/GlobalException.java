@@ -2,11 +2,9 @@ package com.hrsupportcentresq014.exceptions;
 
 
 import com.hrsupportcentresq014.dtos.request.ErrorDetails;
-import com.hrsupportcentresq014.dtos.response.ExceptionResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.SendFailedException;
 import jakarta.mail.internet.AddressException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -123,34 +121,5 @@ public class GlobalException {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<ExceptionResponse> alreadyExist(ResourceAlreadyException e, HttpServletRequest request){
-        ExceptionResponse er = ExceptionResponse.builder()
-                .errorMessage(e.getMessage())
-                .errorPath(request.getRequestURI())
-                .errorStatusCode(HttpStatus.BAD_REQUEST.value())
-                .errorTime(LocalDate.now())
-                .build();
-        return new ResponseEntity<>(er,HttpStatus.BAD_REQUEST);
-    }
-    // This Exception is thrown when a resource is not found
-    public ResponseEntity<ExceptionResponse> notFound(ResourceNotFoundException e, HttpServletRequest request){
-        ExceptionResponse er = ExceptionResponse.builder()
-                .errorMessage(e.getMessage())
-                .errorPath(request.getRequestURI())
-                .errorStatusCode(HttpStatus.NOT_FOUND.value())
-                .errorTime(LocalDate.now())
-                .build();
-        return new ResponseEntity<>(er,HttpStatus.NOT_FOUND);
-    }
 
-    // This Exception is thrown when user unauthorised user attempts to access a resource
-    public ResponseEntity<ExceptionResponse> unauthorised(UnauthorisedException e, HttpServletRequest request){
-        ExceptionResponse er = ExceptionResponse.builder()
-                .errorMessage(e.getMessage())
-                .errorPath(request.getRequestURI())
-                .errorStatusCode(HttpStatus.UNAUTHORIZED.value())
-                .errorTime(LocalDate.now())
-                .build();
-        return new ResponseEntity<>(er,HttpStatus.UNAUTHORIZED);
-    }
 }
