@@ -1,5 +1,6 @@
 package com.hrsupportcentresq014.controllers;
 
+import com.hrsupportcentresq014.dtos.request.ChangePasswordRequest;
 import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
 import com.hrsupportcentresq014.dtos.request.NominationApprovalRequest;
 import com.hrsupportcentresq014.dtos.request.NominationRequest;
@@ -11,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,6 +57,10 @@ public class EmployeeController {
     @PutMapping("/approve-nomination")
     public ResponseEntity<String> approveEmployeeNomination(@Valid @RequestBody NominationApprovalRequest request) throws Exception {
         return ResponseEntity.ok(employeeService.approveNomination(request));
+    }
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordRequest changerPassword, Authentication auth) {
+        return new ResponseEntity<>(employeeService.changePassword(changerPassword, auth), HttpStatus.OK);
     }
 
 }
