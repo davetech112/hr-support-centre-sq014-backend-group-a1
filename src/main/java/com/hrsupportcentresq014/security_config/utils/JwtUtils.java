@@ -54,6 +54,9 @@ public class JwtUtils {
     public Date getExpiration(String jwtToken){
         return extractClaims(jwtToken, Claims::getExpiration);
     }
+    public Date getIssuedAt(String jwtToken){
+        return extractClaims(jwtToken, Claims::getIssuedAt);
+    }
 
     //Method to check if token is expired
     public boolean isTokenExpired(String jwtToken){

@@ -14,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 
 
 @Component
@@ -45,7 +44,7 @@ public class TokenServiceImpl implements TokenService {
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .issuedAt(new Date(System.currentTimeMillis()))
+                .issuedAt(jwtUtils.getIssuedAt(jwtToken))
                 .expiredAt(jwtUtils.getExpiration(jwtToken))
                 .build();
     }
