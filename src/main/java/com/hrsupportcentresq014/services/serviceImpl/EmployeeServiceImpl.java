@@ -6,7 +6,7 @@ import com.hrsupportcentresq014.dtos.request.EmployeeProfileRequest;
 import com.hrsupportcentresq014.dtos.request.NominationApprovalRequest;
 import com.hrsupportcentresq014.dtos.request.NominationRequest;
 import com.hrsupportcentresq014.dtos.response.CreateHrResponseDTO;
-import com.hrsupportcentresq014.entities.Award;
+import com.hrsupportcentresq014.dtos.response.EmployeeViewProfileResponse;
 import com.hrsupportcentresq014.entities.Employee;
 import com.hrsupportcentresq014.entities.Nominee;
 import com.hrsupportcentresq014.exceptions.*;
@@ -70,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         String message = "   Welcome to Decagon!: " + hrDTO.getFirstName() + "Your password is : " + password + "  click here for a password Reset";
         mailService.sendAccountActivation(hrDTO.getEmail(), message);
 
-//        Employee employee2 = employeeRepository.save(newEmployee1);
+       Employee employee2 = employeeRepository.save(newEmployee1);
 
 
         return modelMapper.map(employeeRepository.save(newEmployee1), CreateHrResponseDTO.class);
@@ -144,90 +144,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String nominate(NominationRequest request) throws DuplicateProcessException {
+    public EmployeeViewProfileResponse viewProfile() {
+        String email = securityUtils.getCurrentUserDetails().getUsername();
+        Employee employee = getEmployee(email);
 
-        Award award = awardRepository.findAwardByTitleAndYear(request.getAwardTitle(), LocalDateTime.now().getYear()).orElseThrow(()->new AwardsNotFoundException("Award category "+ request.getAwardTitle() +" for year "+ LocalDateTime.now() +" does not exist"));
-
-        String nominatorEmail = securityUtils.getCurrentUserDetails().getUsername();
-
-        Employee nominator = employeeRepository.findByEmail(nominatorEmail).orElseThrow(()->new EmailNotFoundException("Employee with email "+ nominatorEmail +" not found"));
-
-        Employee nominated = employeeRepository.findByEmail(request.getNomineeEmail()).orElseThrow(()->new EmailNotFoundException("Employee with email "+ request.getNomineeEmail() +" not found"));
-
-        Optional <Nominee> existingNominee =  nomineeRepository.findByNomineeAndAward(nominated, award);
-
-        //Check if no one has been nominated or if one of the nominees has not been nominated yet
-        if(award.getUnapprovedNominees().isEmpty() || existingNominee.isEmpty()){
-            //Instantiate a hashmap and put the email and reason
-
-            HashMap<String, String> nominatorsMap = new HashMap<>();
-            nominatorsMap.put(nominator.getId(), request.getReason());
-
-            //Create an instance of nominee
-            Nominee nominee = Nominee.builder()
-                    .nominee(nominated)
-                    .award(award)
-                    .nominators(nominatorsMap)
-                    .isApproved(false)
-                    .build();
-
-            //Add nominator email and reason to the hashMap
-            award.getUnapprovedNominees().add(nomineeRepository.save(nominee));
-
-            awardRepository.save(award);
-            return "Nomination successful awaiting approval";
-        }
-
-        //If the list of nominees is not empty and the nominee has been nominated
-        Optional<String> checkNominatorEmail = award.getUnapprovedNominees()
-                .stream()
-                .flatMap(nominee -> nominee.getNominators().keySet().stream())
-                .filter(nominatorId -> nominatorId.equals(nominator.getId()))
-                .findFirst();
-
-        if (checkNominatorEmail.isPresent()) {
-            throw new DuplicateProcessException("You already nominated an employee in "+ award.getTitle()+" category");
-        }
-
-        //Since nominee already exists in database and nomination is not duplicate, just add the new nominator to the Hashmap of nominators
-        Nominee updateNominee = existingNominee.get();
-        updateNominee.getNominators().put(nominator.getId(), request.getReason());
-        nomineeRepository.save(updateNominee);
-
-        return "Nomination successful awaiting approval";
-
+        EmployeeViewProfileResponse employeeViewProfileResponse = new EmployeeViewProfileResponse();
+        BeanUtils.copyProperties(employee, employeeViewProfileResponse);
+        return employeeViewProfileResponse;
     }
-
-    @Override
-    public String approveNomination(NominationApprovalRequest request) throws Exception {
-        //Category and year
-        Award award = awardRepository.findAwardByTitleAndYear(request.getAwardTitle(), LocalDateTime.now().getYear()).orElseThrow(()-> new AwardsNotFoundException("Award Category not found"));
-
-        String teamManagerEmail = securityUtils.getCurrentUserDetails().getUsername();
-
-        Employee teamManager = employeeRepository.findByEmail(teamManagerEmail).orElseThrow(()-> new EmailNotFoundException("Email not found"));
-
-        Nominee unapprovedNominee = nomineeRepository.findByNomineeAndAward(employeeRepository.findByEmail(request.getNomineeEmail()).get(), award).get();
-
-        if(teamManager.getDepartment().equals(unapprovedNominee.getNominee().getDepartment()) && teamManager.getPosition().equals("Department Lead")) {
-
-            if(!award.getApprovedNominees().isEmpty()) {
-                Optional<Nominee> duplicateApproval = award.getApprovedNominees().stream().filter(nominee -> nominee.getId().equals(unapprovedNominee.getId())).findFirst();
-                if(duplicateApproval.isPresent()) throw new DuplicateProcessException(unapprovedNominee.getNominee().getFirstName()+" nomination already approved");
-            }
-
-            unapprovedNominee.setApproved(true);
-
-            award.getApprovedNominees().add(nomineeRepository.save(unapprovedNominee));
-
-            awardRepository.save(award);
-
-            return "Nomination Approved";
-        }
-        throw new Exception("Cannot approve nomination");
-
-    }
-
 
 
         public EmployeeProfileRequest mapToEmployeeProfileRequest (Employee employee){
