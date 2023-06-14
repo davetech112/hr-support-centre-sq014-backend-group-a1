@@ -26,9 +26,9 @@ public interface EmployeeService {
     String uploadResume(MultipartFile multipartFile);
 
 
-    String nominate(NominationRequest request) throws DuplicateProcessException;
-
-    String approveNomination(NominationApprovalRequest request) throws Exception;
+//    String nominate(NominationRequest request) throws DuplicateProcessException;
+//
+//    String approveNomination(NominationApprovalRequest request) throws Exception;
 
     boolean verifyCurrentPassword(Employee employee, String enteredPassword);
 
