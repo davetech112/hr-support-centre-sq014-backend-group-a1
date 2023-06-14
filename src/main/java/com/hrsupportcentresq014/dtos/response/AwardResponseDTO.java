@@ -18,8 +18,8 @@ public class AwardResponseDTO {
 
     private String title;
     private String description;
-
     private int year;
+
 
 
 }

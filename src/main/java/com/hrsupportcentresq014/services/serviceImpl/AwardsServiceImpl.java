@@ -1,28 +1,22 @@
 package com.hrsupportcentresq014.services.serviceImpl;
 
 import com.hrsupportcentresq014.dtos.request.AwardRequestDTO;
+import com.hrsupportcentresq014.dtos.response.AllAwardsResponseDTO;
 import com.hrsupportcentresq014.dtos.response.AwardResponseDTO;
 import com.hrsupportcentresq014.entities.Award;
 
 import com.hrsupportcentresq014.exceptions.AwardsNotFoundException;
 import com.hrsupportcentresq014.repositories.AwardRepository;
 import com.hrsupportcentresq014.services.AwardService;
-import com.hrsupportcentresq014.utils.PaginationConstants;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
-import java.time.Year;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class AwardsServiceImpl implements AwardService {
@@ -33,6 +27,7 @@ public class AwardsServiceImpl implements AwardService {
     public AwardsServiceImpl(AwardRepository awardsRepository) {
         this.awardsRepository = awardsRepository;
     }
+
 
     @Override
     public String createAward(AwardRequestDTO awardRequestDTO) throws AwardsNotFoundException{
@@ -67,6 +62,24 @@ public class AwardsServiceImpl implements AwardService {
                 .description(award.getDescription())
                 .year(award.getYear())
                 .build();
+    }
+
+    @Override
+    public AllAwardsResponseDTO getAllRewards(int pageNo, int pageSize) {
+
+        Sort sort = Sort.by(Sort.Direction.DESC,"year");
+        PageRequest paging =  PageRequest.of(pageNo,pageSize,sort);
+        Page<Award> pageRewards = awardsRepository.findAll(paging);
+        List<Award> awardList = pageRewards.getContent();
+
+        var rewards = AllAwardsResponseDTO.builder()
+                .awardList(awardList)
+                .currentPage(pageRewards.getNumber())
+                .totalElement(pageRewards.getTotalElements())
+                .totalPage(pageRewards.getTotalPages())
+                .build();
+
+        return rewards;
     }
 }
 
