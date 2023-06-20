@@ -7,6 +7,8 @@ import java.time.LocalDate;
 public class ViewStaffResponseDTO {
     private String fullName;
     private String position;
+    private String email;
+    private  String phoneNo;
     private String department;
     private String contractType;
     private  String status = "Worker";
