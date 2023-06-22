@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.Collection;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/awards")
@@ -29,7 +29,7 @@ public class AwardController {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         boolean isHrUser = authorities.stream()
-                .anyMatch(auth -> auth.getAuthority().equals("HR"));
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_HR"));
 
         if (!isHrUser) {
             throw new AccessDeniedException("Only HR users are allowed to create awards.");

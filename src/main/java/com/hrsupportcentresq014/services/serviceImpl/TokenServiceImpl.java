@@ -30,7 +30,7 @@ public class TokenServiceImpl implements TokenService {
                         new EmailNotFoundException("User with email: " +request.getEmail() +" not found"));
 
         user.setLoggedIn(true);
-        employeeRepository.save(user);
+        Employee employee = employeeRepository.save(user);
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -46,6 +46,7 @@ public class TokenServiceImpl implements TokenService {
                 .token(jwtToken)
                 .issuedAt(jwtUtils.getIssuedAt(jwtToken))
                 .expiredAt(jwtUtils.getExpiration(jwtToken))
+                .employee(user)
                 .build();
     }
 

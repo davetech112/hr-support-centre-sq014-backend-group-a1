@@ -17,25 +17,13 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreateHrResponseDTO {
     private String firstName;
-
     private String middleName;
-
     private String phoneNo;
-
     private String email;
-
-
     private String lastName;
-
-
     private String password;
-
     private Role role;
-
-
     private LocalDate dob;
-
     private String position;
-
     private String reportTo;
 }

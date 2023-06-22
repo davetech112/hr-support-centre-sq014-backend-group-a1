@@ -8,6 +8,8 @@ import lombok.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -34,4 +36,5 @@ public class EmployeeViewProfileResponse {
     private Role role;
     private String department;
     private String nationality;
+    private LocalDateTime createdOn;
 }

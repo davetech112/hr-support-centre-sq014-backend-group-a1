@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class CreateStaffRequest {
     @NotBlank(message="Field cannot be empty")
     @Length(min=3, message="Firstname should be more than 2 characters")
-    private String firstname;
+    private String firstName;
 
     @NotBlank(message="Field cannot be empty")
     @Length(min=3, message="Lastname should be more than 2 characters")

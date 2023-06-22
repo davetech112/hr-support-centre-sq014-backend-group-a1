@@ -26,12 +26,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/hr")
-@PreAuthorize("hasRole('HR')")
+//@PreAuthorize("hasRole('HR')")
 public class HRController {
   // todo This is a must read for guys working on these end points read below
   // todo: if you want to mark any endpoint for fine-grained authorization refer to the Enum roles to see the specific roles
@@ -44,7 +44,7 @@ public class HRController {
 
 
   @PostMapping("/register")
-  public ResponseEntity<CreateStaffResponse> registerStaffByHR(@Valid @RequestBody CreateStaffRequest staff) throws UserAlreadyExistsException, MessagingException {
+  public ResponseEntity<CreateStaffResponse> registerStaffByHR(@RequestBody CreateStaffRequest staff) throws UserAlreadyExistsException, MessagingException {
     return hrService.registerStaff(staff);
   }
 
