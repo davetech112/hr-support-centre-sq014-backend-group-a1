@@ -51,8 +51,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public CreateHrResponseDTO createHr(CreateHrResponseDTO hrDTO) throws EmployeeExistsException {
-        String password = UUID.randomUUID().toString();
-
+//        String password = UUID.randomUUID().toString();
+        String password = "12345";
         Optional<Employee> foundEmployee =
                 employeeRepository.findByEmail(hrDTO.getEmail());
 
@@ -68,8 +68,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
         String message = "   Welcome to Decagon!: " + hrDTO.getFirstName() + "Your password is : " + password + "  click here for a password Reset";
-        mailService.sendAccountActivation(hrDTO.getEmail(), message);
-
+//        mailService.sendAccountActivation(hrDTO.getEmail(), message);
+        System.out.println(hrDTO.getEmail() + message);
        Employee employee2 = employeeRepository.save(newEmployee1);
 
 

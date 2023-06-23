@@ -9,6 +9,7 @@ import com.hrsupportcentresq014.services.MailService;
 import com.hrsupportcentresq014.services.PasswordResetRequestService;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,11 +20,13 @@ public class PasswordResetRequestServiceImpl implements PasswordResetRequestServ
     private final PasswordResetRequestRepository resetRequestRepo;
     private final EmployeeRepository employeeRepo;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
 
-    public PasswordResetRequestServiceImpl(PasswordResetRequestRepository resetRequestRepo, EmployeeRepository employeeRepo, MailService mailService) {
+    public PasswordResetRequestServiceImpl(PasswordResetRequestRepository resetRequestRepo, EmployeeRepository employeeRepo, MailService mailService, PasswordEncoder passwordEncoder) {
         this.resetRequestRepo = resetRequestRepo;
         this.employeeRepo = employeeRepo;
         this.mailService = mailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class PasswordResetRequestServiceImpl implements PasswordResetRequestServ
         }
         else {
             Employee employeeToResetPassword = employeeRepo.findByEmail(resetRequest.getEmail()).orElseThrow(() -> new RuntimeException("Employee not found"));
-            employeeToResetPassword.setPassword(newPassword);
+            employeeToResetPassword.setPassword(passwordEncoder.encode(newPassword));
             employeeRepo.save(employeeToResetPassword);
         }
         return ResponseEntity.ok("Password reset successful");

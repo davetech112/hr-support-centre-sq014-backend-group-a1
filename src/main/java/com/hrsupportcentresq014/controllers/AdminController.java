@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -45,7 +45,7 @@ public class AdminController {
         return new ResponseEntity<>(roleService.addPermission(request, role_id), HttpStatus.CREATED);
     }
 
-    @PostMapping(name =  "RegisterHr", value= "register-hr" )
+    @PostMapping(name =  "RegisterHr", value= "/register-hr" )
     public ResponseEntity<CreateHrResponseDTO> createHr(@RequestBody CreateHrResponseDTO hrDTO) throws UserAlreadyExistsException {
         return new ResponseEntity<>(employeeService.createHr(hrDTO), HttpStatus.CREATED);
     }

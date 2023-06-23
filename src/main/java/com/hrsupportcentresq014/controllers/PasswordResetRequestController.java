@@ -1,13 +1,12 @@
 package com.hrsupportcentresq014.controllers;
 
+import com.hrsupportcentresq014.dtos.request.PasswordResetRequest;
 import com.hrsupportcentresq014.services.PasswordResetRequestService;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/password")
 public class PasswordResetRequestController {
@@ -18,13 +17,13 @@ public class PasswordResetRequestController {
     }
 
     @PostMapping("/forgot-password/")
-    public ResponseEntity<String> resetPassword(@RequestParam String email) throws MessagingException {
-        return resetRequestService.resetPassword(email);
+    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest email) throws MessagingException {
+        return resetRequestService.resetPassword(email.getEmail());
     }
 
     @PostMapping("/password-reset-confirmation")
     public ResponseEntity<String> confirmPasswordReset(@RequestParam("resetToken") String resetToken,
-                                                       @RequestParam("newPassword") String newPassword){
-        return resetRequestService.completePasswordReset(resetToken, newPassword);
+                                                       @RequestBody PasswordResetRequest newPassword){
+        return resetRequestService.completePasswordReset(resetToken, newPassword.getPassword());
     }
 }

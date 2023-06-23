@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @SpringBootApplication
-//@EnableMongoAuditing
+@EnableMongoAuditing
 public class HrSupportCentreSq014Application {
 
 	public static void main(String[] args) {

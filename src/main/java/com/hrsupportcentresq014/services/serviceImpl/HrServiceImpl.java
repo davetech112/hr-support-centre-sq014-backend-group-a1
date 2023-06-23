@@ -60,30 +60,22 @@ public class HrServiceImpl implements HrService {
     @Override
     public ResponseEntity<CreateStaffResponse> registerStaff(CreateStaffRequest staffRequest) throws UserAlreadyExistsException, MessagingException {
         Optional<Employee> staffDB = repository.findByEmail(staffRequest.getEmail());
-
-
         if (staffDB.isPresent()) {
             throw new UserAlreadyExistsException("User with " + staffRequest.getEmail() + " already exists");
         }
-
-
         //Password is generated for the user at the point of registration
-        UUID uuid = UUID.randomUUID();
-        String password = uuid.toString().replace("-", "").substring(0, 12);
-
-
-        mailService.sendMailTest(staffRequest.getEmail(), "Employee account password", "Welcome, " + staffRequest.getFirstname() + " you have been onboarded. Here is your password: " + password);
-
-
+//        UUID uuid = UUID.randomUUID();
+//        String password = uuid.toString().replace("-", "").substring(0, 12);
+        String password = "12345";
+//        mailService.sendMailTest(staffRequest.getEmail(), "Employee account password", "Welcome, " + staffRequest.getFirstname() + " you have been onboarded. Here is your password: " + password);
+        System.out.println(staffRequest.getEmail()+ "Employee account password Welcome, " + staffRequest.getFirstName() + " you have been onboarded. Here is your password: " + password);
         Employee employee = new Employee();
-
-
         BeanUtils.copyProperties(staffRequest, employee);
 
-
-        employee = Employee.builder()
-                .password(passwordEncoder.encode(password))
-                .build();
+        Role role = roleRepository.findRoleById("staff").get();
+        System.out.println(role);
+        employee.setPassword(passwordEncoder.encode(password));
+        employee.setRole(role);
 
 
         return mappedToResponse(repository.save(employee));
@@ -238,6 +230,7 @@ public class HrServiceImpl implements HrService {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
         Employee employee = repository.findByEmail(email).orElseThrow(()-> new EmployeeNotFoundException("User not found"));
-        return employee.getRole().getName().equals("HR");
+
+        return (employee.getRole().getName().equals("HR") || employee.getRole().getName().equals("ADMIN"));
     }
 }
